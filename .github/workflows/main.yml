@@ -13,10 +13,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4 # Updated to v4
       
       - name: Set up JDK 17
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4 # Updated to v4
         with:
           java-version: '17'
           distribution: 'temurin'
@@ -28,13 +28,14 @@ jobs:
         run: |
           cordova create myApp com.web2apk.app "${{ github.event.inputs.app_name }}"
           cd myApp
+          # Android platform add
           cordova platform add android
-          # یہ کمانڈ آپ کی ویب سائٹ کو ایپ میں ڈال دے گی
+          # Web URL injection
           echo '<meta http-equiv="refresh" content="0;url=${{ github.event.inputs.app_url }}">' > www/index.html
           cordova build android --release
 
       - name: Upload APK
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4 # Updated to v4 (Fixes your error)
         with:
           name: Build-Result
           path: myApp/platforms/android/app/build/outputs/apk/release/*.apk
